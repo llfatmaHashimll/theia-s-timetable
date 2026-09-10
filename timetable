@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Weekly Timetable</title>
+<style>
+  :root{
+    --ink:#1B2333;
+    --ink-soft:#4A5468;
+    --paper:#EEF1F6;
+    --paper-card:#FFFFFF;
+    --line:#D7DCE6;
+    --gold:#B8863E;
+
+    --c-him:#2E5EAA;
+    --c-res:#B23B4E;
+    --c-hstl:#C97A2B;
+    --c-phrm:#6E4B9E;
+    --c-cvs:#A32E3C;
+    --c-micro:#2E8B57;
+    --c-hphy:#1E7F8C;
+    --c-met:#8A6D3B;
+    --c-path:#5C6470;
+    --c-anat:#3B4E9E;
+    --c-e:#B8863E;
+
+    --add-accent:#1F8A70;
+    --add-bg:#EAF6F1;
+  }
+
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding:0 0 64px;
+  }
+
+  .masthead{
+    background:var(--ink);
+    color:var(--paper);
+    padding:38px 24px 30px;
+    position:relative;
+    overflow:hidden;
+  }
+  .masthead::after{
+    content:"";
+    position:absolute;
+    right:-40px; top:-40px;
+    width:180px; height:180px;
+    border:1px solid rgba(238,241,246,0.14);
+    border-radius:50%;
+  }
+  .masthead::before{
+    content:"";
+    position:absolute;
+    right:20px; top:20px;
+    width:100px; height:100px;
+    border:1px solid rgba(238,241,246,0.14);
+    border-radius:50%;
+  }
+  .masthead h1{
+    font-family:Georgia,"Times New Roman",serif;
+    font-weight:400;
+    font-size:clamp(28px,7vw,40px);
+    margin:0 0 6px;
+    letter-spacing:0.2px;
+    position:relative;
+  }
+  .masthead p{
+    margin:0;
+    color:#AEB8CC;
+    font-size:14.5px;
+    max-width:46ch;
+    line-height:1.5;
+    position:relative;
+  }
+
+  .wrap{
+    max-width:720px;
+    margin:0 auto;
+    padding:0 16px;
+  }
+
+  .daynav{
+    display:flex;
+    gap:8px;
+    margin:-22px auto 28px;
+    max-width:720px;
+    padding:0 16px;
+    position:relative;
+    z-index:2;
+  }
+  .daynav button{
+    flex:1;
+    border:1px solid var(--line);
+    background:var(--paper-card);
+    color:var(--ink-soft);
+    font-size:14px;
+    font-weight:600;
+    padding:12px 6px;
+    border-radius:10px;
+    cursor:pointer;
+    transition:background .15s ease, color .15s ease, transform .1s ease;
+    box-shadow:0 2px 6px rgba(27,35,51,0.06);
+  }
+  .daynav button.active{
+    background:var(--ink);
+    color:var(--paper);
+    border-color:var(--ink);
+  }
+  .daynav button:active{ transform:scale(0.97); }
+
+  .day-block{ display:none; }
+  .day-block.active{ display:block; animation:reveal .35s ease; }
+  @keyframes reveal{
+    from{ opacity:0; transform:translateY(6px); }
+    to{ opacity:1; transform:translateY(0); }
+  }
+
+  .day-title{
+    font-family:Georgia,serif;
+    font-size:22px;
+    font-weight:400;
+    margin:0 0 4px;
+    display:flex;
+    align-items:baseline;
+    gap:10px;
+  }
+  .day-title .en{
+    font-size:12.5px;
+    color:var(--ink-soft);
+    font-family:-apple-system,sans-serif;
+    letter-spacing:0.3px;
+  }
+  .day-sub{
+    color:var(--ink-soft);
+    font-size:13px;
+    margin:0 0 18px;
+  }
+
+  .slot{
+    display:grid;
+    grid-template-columns:64px 1fr;
+    gap:14px;
+    border-bottom:1px solid var(--line);
+    padding:12px 2px;
+  }
+  .slot:last-child{ border-bottom:none; }
+  .slot-time{
+    font-size:13px;
+    font-weight:600;
+    color:var(--ink-soft);
+    padding-top:2px;
+    white-space:nowrap;
+  }
+  .slot-body{ display:flex; flex-wrap:wrap; gap:8px; }
+
+  .chip{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-left:4px solid var(--chip-color, var(--ink));
+    border-radius:8px;
+    padding:8px 12px;
+    font-size:13.5px;
+    flex:1 1 auto;
+    min-width:0;
+  }
+  .chip .dot{ display:none; }
+  .chip .subj{ font-weight:700; color:var(--ink); white-space:nowrap; }
+  .chip .tag{
+    font-size:11px;
+    color:#fff;
+    background:var(--chip-color, var(--ink));
+    padding:2px 7px;
+    border-radius:5px;
+    font-weight:600;
+  }
+
+  .chip.wide{ flex-basis:100%; }
+
+  .slot.exposure .chip{
+    border-left-color:var(--c-e);
+    background:linear-gradient(90deg, rgba(184,134,62,0.08), transparent);
+  }
+  .slot.exposure .subj{ color:var(--gold); }
+
+  .elective-row{
+    margin-top:2px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:6px;
+  }
+  .elective{
+    font-size:11.5px;
+    color:var(--ink-soft);
+    border:1px dashed var(--line);
+    border-radius:20px;
+    padding:3px 10px;
+  }
+
+  .legend{
+    margin-top:36px;
+    padding-top:20px;
+    border-top:1px solid var(--line);
+  }
+  .legend h2{
+    font-family:Georgia,serif;
+    font-weight:400;
+    font-size:16px;
+    margin:0 0 12px;
+  }
+  .legend-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(150px,1fr));
+    gap:8px 14px;
+  }
+  .legend-item{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+  }
+  .legend-swatch{
+    width:10px;height:10px;border-radius:2px;flex-shrink:0;
+  }
+
+  .note{
+    margin-top:22px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    line-height:1.6;
+    background:var(--paper-card);
+    border:1px solid var(--line);
+    border-radius:10px;
+    padding:12px 14px;
+  }
+
+  @media (min-width:600px){
+    .slot{ grid-template-columns:90px 1fr; }
+  }
+
+  /* --- Added-section styling (from the full weekly calendar) --- */
+  .daynav button.added-tab{
+    border-color:var(--add-accent);
+    color:var(--add-accent);
+  }
+  .daynav button.added-tab.active{
+    background:var(--add-accent);
+    border-color:var(--add-accent);
+    color:#fff;
+  }
+
+  .section-flag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+    font-weight:700;
+    color:#fff;
+    background:var(--add-accent);
+    padding:3px 9px;
+    border-radius:20px;
+    letter-spacing:0.2px;
+    vertical-align:middle;
+  }
+
+  .day-block.added .slot{
+    background:var(--add-bg);
+    border-bottom:1px solid #CFE9DF;
+    border-radius:8px;
+    margin-bottom:6px;
+    padding:12px 10px;
+  }
+  .day-block.added .chip{
+    border-left-color:var(--add-accent) !important;
+  }
+  .day-block.added .chip .tag{
+    background:var(--add-accent) !important;
+  }
+  .day-block.added .subj{ color:var(--add-accent); }
+</style>
+</head>
+<body>
+
+<div class="masthead">
+  <h1>Weekly Timetable</h1>
+  <p>Sunday · Tuesday · Wednesday — lecture and practical schedule at a glance.</p>
+</div>
+
+<div class="daynav">
+  <button class="active" data-day="sun">Sun</button>
+  <button class="added-tab" data-day="mon">Mon</button>
+  <button data-day="tue">Tue</button>
+  <button data-day="wed">Wed</button>
+  <button class="added-tab" data-day="thu">Thu</button>
+  <button class="added-tab" data-day="sat">Sat</button>
+</div>
+
+<div class="wrap">
+
+  <!-- SUNDAY -->
+  <section class="day-block active" id="sun">
+    <h2 class="day-title">Sunday <span class="en">SUN.</span></h2>
+    <p class="day-sub">6 lecture slots + electives + clinical exposure</p>
+
+    <div class="slot">
+      <div class="slot-time">11–12</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-him)">
+          <span class="subj">PARA</span><span class="tag">HIM</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">12–1</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-res)">
+          <span class="subj">PARA</span><span class="tag">RES</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">1–2</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-res)">
+          <span class="subj">HSTL</span><span class="tag">RES</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">2–3</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-him)">
+          <span class="subj">HSTL</span><span class="tag">HIM</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">3–4</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-res)">
+          <span class="subj">PHRM</span><span class="tag">RES</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">4–5</div>
+      <div class="slot-body">
+        <div class="chip wide" style="--chip-color:var(--c-cvs)">
+          <span class="subj">PHRM</span><span class="tag">CVS</span>
+          <div class="elective-row">
+            <span class="elective">HMD E</span>
+            <span class="elective">HMN E</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slot exposure">
+      <div class="slot-time">6–8</div>
+      <div class="slot-body">
+        <div class="chip"><span class="subj">Early Clinical Exposure</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- MONDAY — added section -->
+  <section class="day-block added" id="mon">
+    <h2 class="day-title">Monday <span class="section-flag">Added section</span></h2>
+    <p class="day-sub">From the full weekly calendar — not in the original cropped table</p>
+
+    <div class="slot">
+      <div class="slot-time">9–11</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--add-accent)">
+          <span class="subj">Haemopoietic System &amp; Immunity</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">12–2</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--add-accent)">
+          <span class="subj">English Language III</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">5–6+</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--add-accent)">
+          <span class="subj">Respiratory system</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- TUESDAY -->
+  <section class="day-block" id="tue">
+    <h2 class="day-title">Tuesday <span class="en">TUES.</span></h2>
+    <p class="day-sub">6 lecture slots + electives + clinical exposure</p>
+
+    <div class="slot">
+      <div class="slot-time">11–12</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-cvs)">
+          <span class="subj">MICRO</span><span class="tag">CVS</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">12–1</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-him)">
+          <span class="subj">MICRO</span><span class="tag">HIM</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">1–2</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-res)">
+          <span class="subj">HPHY</span><span class="tag">RES</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">2–4</div>
+      <div class="slot-body">
+        <div class="chip wide" style="--chip-color:var(--c-met)">
+          <span class="subj">MET</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">4–5</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-him)">
+          <span class="subj">PHRM</span><span class="tag">HIM</span>
+        </div>
+        <div class="elective-row">
+          <span class="elective">SPN E</span>
+          <span class="elective">ICO E</span>
+          <span class="elective">COSK E</span>
+          <span class="elective">ELM E</span>
+          <span class="elective">LDS E</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot exposure">
+      <div class="slot-time">6–8</div>
+      <div class="slot-body">
+        <div class="chip"><span class="subj">Early Clinical Exposure</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- WEDNESDAY -->
+  <section class="day-block" id="wed">
+    <h2 class="day-title">Wednesday <span class="en">WED.</span></h2>
+    <p class="day-sub">5 lecture slots + clinical exposure</p>
+
+    <div class="slot">
+      <div class="slot-time">11–1</div>
+      <div class="slot-body">
+        <div class="chip wide" style="--chip-color:var(--c-cvs)">
+          <span class="subj">HPHY</span><span class="tag">CVS</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">1–2</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-cvs)">
+          <span class="subj">PATH</span><span class="tag">CVS</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">2–3</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-him)">
+          <span class="subj">PATH</span><span class="tag">HIM</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">3–4</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-cvs)">
+          <span class="subj">ANAT</span><span class="tag">CVS</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot">
+      <div class="slot-time">4–5</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--c-res)">
+          <span class="subj">ANAT</span><span class="tag">RES</span>
+        </div>
+      </div>
+    </div>
+    <div class="slot exposure">
+      <div class="slot-time">6–8</div>
+      <div class="slot-body">
+        <div class="chip"><span class="subj">Early Clinical Exposure</span></div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- THURSDAY — added section -->
+  <section class="day-block added" id="thu">
+    <h2 class="day-title">Thursday <span class="section-flag">Added section</span></h2>
+    <p class="day-sub">From the full weekly calendar — not in the original cropped table</p>
+
+    <div class="slot">
+      <div class="slot-time">10–12</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--add-accent)">
+          <span class="subj">Cardiovascular System</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- SATURDAY — added section -->
+  <section class="day-block added" id="sat">
+    <h2 class="day-title">Saturday <span class="section-flag">Added section</span></h2>
+    <p class="day-sub">From the full weekly calendar — not in the original cropped table</p>
+
+    <div class="slot">
+      <div class="slot-time">1–5</div>
+      <div class="slot-body">
+        <div class="chip" style="--chip-color:var(--add-accent)">
+          <span class="subj">Metabolism I</span>
+        </div>
+      </div>
+    </div>
+  </section>
+iv class="legend">
+    <h2>Rotation key</h2>
+    <div class="legend-grid">
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-him)"></span>HIM</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-res)"></span>RES</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-cvs)"></span>CVS</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-met)"></span>MET (no rotation split)</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-e)"></span>Clinical exposure</div>
+      <div class="legend-item"><span class="legend-swatch" style="background:var(--add-accent)"></span>Added section (Mon/Thu/Sat)</div>
+    </div>
+  </div>
+
+  <div class="note">
+    Tags in each block (HIM / RES / CVS) mark which rotation group that slot belongs to — the same subject often runs twice in a row for two different groups. Short codes in dashed pills (e.g. SPN E, ICO E) are elective sessions running alongside the main lecture in that slot. The bottom edge of the source table was cropped, so a further row below "Practical" may exist beyond what's shown here.
+    <br><br>
+    <strong>Mon / Thu / Sat</strong> (green tabs) are marked as an <em>added section</em> — they come from the full weekly Fall 2026–2027 calendar and weren't part of the original cropped Sun/Tue/Wed table. Times reflect the block spans visible in that calendar and may run slightly longer where the image was cut off.
+  </div>
+
+</div>
+
+<script>
+  const buttons = document.querySelectorAll('.daynav button');
+  const blocks = document.querySelectorAll('.day-block');
+  buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      buttons.forEach(b => b.classList.remove('active'));
+      blocks.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.day).classList.add('active');
+    });
+  });
+</script>
+
+</body>
+</html>
