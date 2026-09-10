@@ -24,6 +24,9 @@
     --c-path:#5C6470;
     --c-anat:#3B4E9E;
     --c-e:#B8863E;
+
+    --add-accent:#1F8A70;
+    --add-bg:#EAF6F1;
   }
 
   *{box-sizing:border-box;}
@@ -243,6 +246,46 @@
   @media (min-width:600px){
     .slot{ grid-template-columns:90px 1fr; }
   }
+
+  /* --- Added-section styling (from the full weekly calendar) --- */
+  .daynav button.added-tab{
+    border-color:var(--add-accent);
+    color:var(--add-accent);
+  }
+  .daynav button.added-tab.active{
+    background:var(--add-accent);
+    border-color:var(--add-accent);
+    color:#fff;
+  }
+
+  .section-flag{
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    font-size:11px;
+    font-weight:700;
+    color:#fff;
+    background:var(--add-accent);
+    padding:3px 9px;
+    border-radius:20px;
+    letter-spacing:0.2px;
+    vertical-align:middle;
+  }
+
+  .day-block.added .slot{
+    background:var(--add-bg);
+    border-bottom:1px solid #CFE9DF;
+    border-radius:8px;
+    margin-bottom:6px;
+    padding:12px 10px;
+  }
+  .day-block.added .chip{
+    border-left-color:var(--add-accent) !important;
+  }
+  .day-block.added .chip .tag{
+    background:var(--add-accent) !important;
+  }
+  .day-block.added .subj{ color:var(--add-accent); }
 </style>
 </head>
 <body>
@@ -254,11 +297,11 @@
 
 <div class="daynav">
   <button class="active" data-day="sun">Sun</button>
-  <button data-day="mon">Mon</button>
+  <button class="added-tab" data-day="mon">Mon</button>
   <button data-day="tue">Tue</button>
   <button data-day="wed">Wed</button>
-  <button data-day="thu">Thu</button>
-  <button data-day="sat">Sat</button>
+  <button class="added-tab" data-day="thu">Thu</button>
+  <button class="added-tab" data-day="sat">Sat</button>
 </div>
 
 <div class="wrap">
