@@ -12,7 +12,7 @@
     --paper-card:#FFFFFF;
     --line:#D7DCE6;
     --gold:#B8863E;
-
+ 
     --c-him:#2E5EAA;
     --c-res:#B23B4E;
     --c-hstl:#C97A2B;
@@ -24,11 +24,8 @@
     --c-path:#5C6470;
     --c-anat:#3B4E9E;
     --c-e:#B8863E;
-
-    --add-accent:#1F8A70;
-    --add-bg:#EAF6F1;
   }
-
+ 
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -38,7 +35,7 @@
     -webkit-font-smoothing:antialiased;
     padding:0 0 64px;
   }
-
+ 
   .masthead{
     background:var(--ink);
     color:var(--paper);
@@ -78,13 +75,13 @@
     line-height:1.5;
     position:relative;
   }
-
+ 
   .wrap{
     max-width:720px;
     margin:0 auto;
     padding:0 16px;
   }
-
+ 
   .daynav{
     display:flex;
     gap:8px;
@@ -113,14 +110,14 @@
     border-color:var(--ink);
   }
   .daynav button:active{ transform:scale(0.97); }
-
+ 
   .day-block{ display:none; }
   .day-block.active{ display:block; animation:reveal .35s ease; }
   @keyframes reveal{
     from{ opacity:0; transform:translateY(6px); }
     to{ opacity:1; transform:translateY(0); }
   }
-
+ 
   .day-title{
     font-family:Georgia,serif;
     font-size:22px;
@@ -141,7 +138,7 @@
     font-size:13px;
     margin:0 0 18px;
   }
-
+ 
   .slot{
     display:grid;
     grid-template-columns:64px 1fr;
@@ -158,7 +155,7 @@
     white-space:nowrap;
   }
   .slot-body{ display:flex; flex-wrap:wrap; gap:8px; }
-
+ 
   .chip{
     display:flex;
     align-items:center;
@@ -182,15 +179,15 @@
     border-radius:5px;
     font-weight:600;
   }
-
+ 
   .chip.wide{ flex-basis:100%; }
-
+ 
   .slot.exposure .chip{
     border-left-color:var(--c-e);
     background:linear-gradient(90deg, rgba(184,134,62,0.08), transparent);
   }
   .slot.exposure .subj{ color:var(--gold); }
-
+ 
   .elective-row{
     margin-top:2px;
     display:flex;
@@ -204,7 +201,7 @@
     border-radius:20px;
     padding:3px 10px;
   }
-
+ 
   .legend{
     margin-top:36px;
     padding-top:20px;
@@ -231,7 +228,7 @@
   .legend-swatch{
     width:10px;height:10px;border-radius:2px;flex-shrink:0;
   }
-
+ 
   .note{
     margin-top:22px;
     font-size:12.5px;
@@ -242,350 +239,29 @@
     border-radius:10px;
     padding:12px 14px;
   }
-
+ 
   @media (min-width:600px){
     .slot{ grid-template-columns:90px 1fr; }
   }
-
-  /* --- Added-section styling (from the full weekly calendar) --- */
-  .daynav button.added-tab{
-    border-color:var(--add-accent);
-    color:var(--add-accent);
-  }
-  .daynav button.added-tab.active{
-    background:var(--add-accent);
-    border-color:var(--add-accent);
-    color:#fff;
-  }
-
-  .section-flag{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    font-size:11px;
-    font-weight:700;
-    color:#fff;
-    background:var(--add-accent);
-    padding:3px 9px;
-    border-radius:20px;
-    letter-spacing:0.2px;
-    vertical-align:middle;
-  }
-
-  .day-block.added .slot{
-    background:var(--add-bg);
-    border-bottom:1px solid #CFE9DF;
-    border-radius:8px;
-    margin-bottom:6px;
-    padding:12px 10px;
-  }
-  .day-block.added .chip{
-    border-left-color:var(--add-accent) !important;
-  }
-  .day-block.added .chip .tag{
-    background:var(--add-accent) !important;
-  }
-  .day-block.added .subj{ color:var(--add-accent); }
 </style>
 </head>
 <body>
-
+ 
 <div class="masthead">
   <h1>Weekly Timetable</h1>
   <p>Lecture and practical schedule at a glance.</p>
 </div>
-
+ 
 <div class="daynav">
   <button class="active" data-day="sun">Sun</button>
-  <button class="added-tab" data-day="mon">Mon</button>
+  <button data-day="mon">Mon</button>
   <button data-day="tue">Tue</button>
   <button data-day="wed">Wed</button>
-  <button class="added-tab" data-day="thu">Thu</button>
-  <button class="added-tab" data-day="sat">Sat</button>
+  <button data-day="thu">Thu</button>
+  <button data-day="sat">Sat</button>
 </div>
-
+ 
 <div class="wrap">
-
-  <!-- SUNDAY -->
-  <section class="day-block active" id="sun">
-    <h2 class="day-title">Sunday <span class="en">SUN.</span></h2>
-    <p class="day-sub">6 lecture slots + electives + clinical exposure</p>
-
-    <div class="slot">
-      <div class="slot-time">11–12</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-him)">
-          <span class="subj">PARA</span><span class="tag">HIM</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">12–1</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-res)">
-          <span class="subj">PARA</span><span class="tag">RES</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">1–2</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-res)">
-          <span class="subj">HSTL</span><span class="tag">RES</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">2–3</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-him)">
-          <span class="subj">HSTL</span><span class="tag">HIM</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">3–4</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-res)">
-          <span class="subj">PHRM</span><span class="tag">RES</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">4–5</div>
-      <div class="slot-body">
-        <div class="chip wide" style="--chip-color:var(--c-cvs)">
-          <span class="subj">PHRM</span><span class="tag">CVS</span>
-          <div class="elective-row">
-            <span class="elective">HMD E</span>
-            <span class="elective">HMN E</span>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="slot exposure">
-      <div class="slot-time">6–7</div>
-      <div class="slot-body">
-        <div class="chip"><span class="subj">Hospital Mgmt</span></div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- MONDAY -->
-  <section class="day-block" id="mon">
-    <h2 class="day-title">Monday <span class="en">MON.</span></h2>
-
-    <div class="slot">
-      <div class="slot-time">9–10</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-him)">
-           <span class="subj">PARA</span><span class="tag">HIM</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">12–3</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-hstl)">
-          <span class="subj">English Language III</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">5–6</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-res)">
-           <span class="subj">PATH</span><span class="tag">RES</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">12–3</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-res)">
-          <span class="subj">HSTL</span><span class="tag">RES</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- TUESDAY -->
-  <section class="day-block" id="tue">
-    <h2 class="day-title">Tuesday <span class="en">TUES.</span></h2>
-    <p class="day-sub">6 lecture slots + electives + clinical exposure</p>
-
-    <div class="slot">
-      <div class="slot-time">11–12</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-cvs)">
-          <span class="subj">MICRO</span><span class="tag">CVS</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">12–1</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-him)">
-          <span class="subj">MICRO</span><span class="tag">HIM</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">1–2</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-res)">
-          <span class="subj">PHYS</span><span class="tag">RES</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">2–4</div>
-      <div class="slot-body">
-        <div class="chip wide" style="--chip-color:var(--c-met)">
-          <span class="subj">MET</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">4–5</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-him)">
-          <span class="subj">PHRM</span><span class="tag">HIM</span>
-        </div>
-        <div class="elective-row">
-          <span class="elective">SPN E</span>
-          <span class="elective">ICO E</span>
-          <span class="elective">COSK E</span>
-          <span class="elective">ELM E</span>
-          <span class="elective">LDS E</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot exposure">
-      <div class="slot-time">6–8</div>
-      <div class="slot-body">
-        <div class="chip"><span class="subj">Early Clinical Exposure</span></div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- WEDNESDAY -->
-  <section class="day-block" id="wed">
-    <h2 class="day-title">Wednesday <span class="en">WED.</span></h2>
-    <p class="day-sub">5 lecture slots + clinical exposure</p>
-
-    <div class="slot">
-      <div class="slot-time">11–2</div>
-      <div class="slot-body">
-        <div class="chip wide" style="--chip-color:var(--c-cvs)">
-          <span class="subj">PHYS</span><span class="tag">CVS</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">2–3</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-him)">
-          <span class="subj">PATH</span><span class="tag">HIM</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">3–4</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-cvs)">
-          <span class="subj">ANAT</span><span class="tag">CVS</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">4–5</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-res)">
-          <span class="subj">ANAT</span><span class="tag">RES</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- THURSDAY -->
-  <section class="day-block" id="thu">
-    <h2 class="day-title">Thursday <span class="en">THU.</span></h2>
-
-    <div class="slot">
-      <div class="slot-time">10–11</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-cvs)">
-          <span class="subj">PHRM</span><span class="tag">CVS</span>
-        </div>
-      </div>
-    </div>
-     <div class="slot">
-      <div class="slot-time">11–12</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-cvs)">
-          <span class="subj">ANAT</span><span class="tag">CVS</span>
-        </div>
-      </div>
-    </div>
-     <div class="slot">
-      <div class="slot-time">12–1</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-cvs)">
-          <span class="subj">PHYS</span><span class="tag">CVS</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-
-  <!-- SATURDAY -->
-  <section class="day-block" id="sat">
-    <h2 class="day-title">Saturday <span class="en">SAT.</span></h2>
-
-    <div class="slot">
-      <div class="slot-time">1–3</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--c-met)">
-          <span class="subj">MET</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <div class="legend">
-    <h2>Rotation key</h2>
-    <div class="legend-grid">
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-him)"></span>HIM</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-res)"></span>RES</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-cvs)"></span>CVS</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-met)"></span>MET (no rotation split)</div>
-      <div class="legend-item"><span class="legend-swatch" style="background:var(--c-e)"></span>Clinical exposure</div>
-    </div>
-  </div>
-
-</div>
-
-<script>
-  const buttons = document.querySelectorAll('.daynav button');
-  const blocks = document.querySelectorAll('.day-block');
-  buttons.forEach(btn => {
-    btn.addEventListener('click', () => {
-      buttons.forEach(b => b.classList.remove('active'));
-      blocks.forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById(btn.dataset.day).classList.add('active');
-    });
-  });
-</script>
-
-</body>
-</html>
-
   <!-- SUNDAY -->
   <section class="day-block active" id="sun">
     <h2 class="day-title">Sunday <span class="en">SUN.</span></h2>
@@ -678,7 +354,7 @@
       </div>
     </div>
         <div class="slot">
-      <div class="slot-time">12–3</div>
+      <div class="slot-time">6–7</div>
       <div class="slot-body">
         <div class="chip" style="--chip-color:var(---c-res)">
           <span class="subj">HSTL</span><span class="tag">RES</span>
@@ -733,13 +409,6 @@
         </div>
       </div>
     </div>
-    <div class="slot exposure">
-      <div class="slot-time">6–8</div>
-      <div class="slot-body">
-        <div class="chip"><span class="subj">Early Clinical Exposure</span></div>
-      </div>
-    </div>
-  </section>
 
 
   <!-- WEDNESDAY -->
@@ -856,3 +525,4 @@
 
 </body>
 </html>
+
