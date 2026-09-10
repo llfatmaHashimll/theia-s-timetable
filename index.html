@@ -108,6 +108,22 @@
     background:var(--ink);
     color:var(--paper);
     border-color:var(--ink);
+    .daynav button[data-day="sun"],
+    .daynav button[data-day="tue"],
+    .daynav button[data-day="wed"]
+    {
+     background:#00E676;
+     color:#0B2E1A;
+     border-color:#00E676;
+     }
+    .daynav button[data-day="sun"].active,
+    .daynav button[data-day="tue"].active,
+    .daynav button[data-day="wed"].active
+    {
+      background:#00C853;
+      color:#ffffff;
+      border-color:#00C853;
+    }
   }
   .daynav button:active{ transform:scale(0.97); }
 
@@ -418,13 +434,23 @@
     <p class="day-sub">4 lecture slots</p>
 
     <div class="slot">
-      <div class="slot-time">11–2</div>
+      <div class="slot-time">11–1</div>
       <div class="slot-body">
         <div class="chip wide" style="--chip-color:var(--c-cvs)">
           <span class="subj">PHYS</span><span class="tag">CVS</span>
         </div>
       </div>
     </div>
+
+    <div class="slot">
+      <div class="slot-time">1–2</div>
+      <div class="slot-body">
+        <div class="chip wide" style="--chip-color:var(--c-cvs)">
+          <span class="subj">PATH</span><span class="tag">CVS</span>
+        </div>
+      </div>
+    </div>
+    
     <div class="slot">
       <div class="slot-time">2–3</div>
       <div class="slot-body">
