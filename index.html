@@ -12,7 +12,7 @@
     --paper-card:#FFFFFF;
     --line:#D7DCE6;
     --gold:#B8863E;
- 
+
     --c-him:#2E5EAA;
     --c-res:#B23B4E;
     --c-hstl:#C97A2B;
@@ -25,7 +25,7 @@
     --c-anat:#3B4E9E;
     --c-e:#B8863E;
   }
- 
+
   *{box-sizing:border-box;}
   html,body{margin:0;padding:0;}
   body{
@@ -35,7 +35,7 @@
     -webkit-font-smoothing:antialiased;
     padding:0 0 64px;
   }
- 
+
   .masthead{
     background:var(--ink);
     color:var(--paper);
@@ -75,13 +75,13 @@
     line-height:1.5;
     position:relative;
   }
- 
+
   .wrap{
     max-width:720px;
     margin:0 auto;
     padding:0 16px;
   }
- 
+
   .daynav{
     display:flex;
     gap:8px;
@@ -110,14 +110,14 @@
     border-color:var(--ink);
   }
   .daynav button:active{ transform:scale(0.97); }
- 
+
   .day-block{ display:none; }
   .day-block.active{ display:block; animation:reveal .35s ease; }
   @keyframes reveal{
     from{ opacity:0; transform:translateY(6px); }
     to{ opacity:1; transform:translateY(0); }
   }
- 
+
   .day-title{
     font-family:Georgia,serif;
     font-size:22px;
@@ -138,7 +138,7 @@
     font-size:13px;
     margin:0 0 18px;
   }
- 
+
   .slot{
     display:grid;
     grid-template-columns:64px 1fr;
@@ -155,7 +155,7 @@
     white-space:nowrap;
   }
   .slot-body{ display:flex; flex-wrap:wrap; gap:8px; }
- 
+
   .chip{
     display:flex;
     align-items:center;
@@ -179,15 +179,15 @@
     border-radius:5px;
     font-weight:600;
   }
- 
+
   .chip.wide{ flex-basis:100%; }
- 
+
   .slot.exposure .chip{
     border-left-color:var(--c-e);
     background:linear-gradient(90deg, rgba(184,134,62,0.08), transparent);
   }
   .slot.exposure .subj{ color:var(--gold); }
- 
+
   .elective-row{
     margin-top:2px;
     display:flex;
@@ -201,7 +201,7 @@
     border-radius:20px;
     padding:3px 10px;
   }
- 
+
   .legend{
     margin-top:36px;
     padding-top:20px;
@@ -228,7 +228,7 @@
   .legend-swatch{
     width:10px;height:10px;border-radius:2px;flex-shrink:0;
   }
- 
+
   .note{
     margin-top:22px;
     font-size:12.5px;
@@ -239,19 +239,19 @@
     border-radius:10px;
     padding:12px 14px;
   }
- 
+
   @media (min-width:600px){
     .slot{ grid-template-columns:90px 1fr; }
   }
 </style>
 </head>
 <body>
- 
+
 <div class="masthead">
   <h1>Weekly Timetable</h1>
   <p>Lecture and practical schedule at a glance.</p>
 </div>
- 
+
 <div class="daynav">
   <button class="active" data-day="sun">Sun</button>
   <button data-day="mon">Mon</button>
@@ -260,8 +260,9 @@
   <button data-day="thu">Thu</button>
   <button data-day="sat">Sat</button>
 </div>
- 
+
 <div class="wrap">
+
   <!-- SUNDAY -->
   <section class="day-block active" id="sun">
     <h2 class="day-title">Sunday <span class="en">SUN.</span></h2>
@@ -324,24 +325,16 @@
   </section>
 
 
-  <!-- MONDAY — added section -->
-    <section class="day-block active" id="mon">
+  <!-- MONDAY -->
+  <section class="day-block" id="mon">
     <h2 class="day-title">Monday <span class="en">MON.</span></h2>
-    <p class="day-sub">3 lecture slots + electives </p>
+    <p class="day-sub">3 lecture slots + electives</p>
 
     <div class="slot">
       <div class="slot-time">9–10</div>
       <div class="slot-body">
         <div class="chip" style="--chip-color:var(--c-him)">
-           <span class="subj">PARA</span><span class="tag">HIM</span>
-        </div>
-      </div>
-    </div>
-    <div class="slot">
-      <div class="slot-time">12–3</div>
-      <div class="slot-body">
-        <div class="chip" style="--chip-color:var(--add-accent)">
-          <span class="subj">English Language III</span>
+          <span class="subj">PARA</span><span class="tag">HIM</span>
         </div>
       </div>
     </div>
@@ -349,14 +342,17 @@
       <div class="slot-time">5–6</div>
       <div class="slot-body">
         <div class="chip" style="--chip-color:var(--c-res)">
-           <span class="subj">PATH</span><span class="tag">RES</span>
+          <span class="subj">PATH</span><span class="tag">RES</span>
         </div>
       </div>
     </div>
-        <div class="slot">
+    <div class="slot">
       <div class="slot-time">6–7</div>
       <div class="slot-body">
-        <div class="chip" style="--chip-color:var(---c-res)">
+        <div class="chip" style="--chip-color:var(--ink)">
+          <span class="subj">English Language III</span>
+        </div>
+        <div class="chip" style="--chip-color:var(--c-res)">
           <span class="subj">HSTL</span><span class="tag">RES</span>
         </div>
       </div>
@@ -409,6 +405,7 @@
         </div>
       </div>
     </div>
+  </section>
 
 
   <!-- WEDNESDAY -->
@@ -451,11 +448,11 @@
   </section>
 
 
-  <!-- THURSDAY — added section -->
-    <section class="day-block active" id="thu">
+  <!-- THURSDAY -->
+  <section class="day-block" id="thu">
     <h2 class="day-title">Thursday <span class="en">THU.</span></h2>
-    <p class="day-sub">3 lecture slots </p>
-      
+    <p class="day-sub">3 lecture slots</p>
+
     <div class="slot">
       <div class="slot-time">10–11</div>
       <div class="slot-body">
@@ -464,7 +461,7 @@
         </div>
       </div>
     </div>
-     <div class="slot">
+    <div class="slot">
       <div class="slot-time">11–12</div>
       <div class="slot-body">
         <div class="chip" style="--chip-color:var(--c-cvs)">
@@ -472,7 +469,7 @@
         </div>
       </div>
     </div>
-     <div class="slot">
+    <div class="slot">
       <div class="slot-time">12–1</div>
       <div class="slot-body">
         <div class="chip" style="--chip-color:var(--c-cvs)">
@@ -484,10 +481,10 @@
 
 
   <!-- SATURDAY -->
-  <section class="day-block active" id="sat">
+  <section class="day-block" id="sat">
     <h2 class="day-title">Saturday <span class="en">SAT.</span></h2>
-    <p class="day-sub"> electives </p>
-    
+    <p class="day-sub">Electives</p>
+
     <div class="slot">
       <div class="slot-time">1–3</div>
       <div class="slot-body">
@@ -497,7 +494,8 @@
       </div>
     </div>
   </section>
-<div class = "legend">
+
+  <div class="legend">
     <h2>Rotation key</h2>
     <div class="legend-grid">
       <div class="legend-item"><span class="legend-swatch" style="background:var(--c-him)"></span>HIM</div>
@@ -525,4 +523,3 @@
 
 </body>
 </html>
-
